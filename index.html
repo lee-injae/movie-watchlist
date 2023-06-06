@@ -7,12 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Find your film</h2>
-    <div id="movies"></div>
+    
+    
+    <header>
+        <h1>Find your film</h1>
+        <a href="./watchlist.html"><p>My Watchlist</p></a>
+    </header>
+    
     <form id="search-form">
-        <input type="text" id="search" name="search">
-        <button id="btn" type="submit">Search</submit>
+        <!-- <img class="search-icon" src="./assets/search-icon.png" alt="magnifying-glass"> -->
+        <input type="text" 
+        id="search-input" 
+        class="search-input" 
+        name="search"
+        placeholder="Search.."
+
+        />
+        <button id="search-btn" class="search-btn" type="submit">Search</button>
     </form>
+
+    <div class="movies-container" id="movies"></div>
+
     <script src="index.js"></script>
 </body>
 </html>

@@ -1,35 +1,43 @@
 const url = "https://www.omdbapi.com/?apikey=36ea6bc0&t=batman"
 
 const moviesEl = document.getElementById("movies")
-
-fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)   
-        console.log(data.Title)    
-        moviesEl.innerHTML = `
-            <h3>${data.Title}</h3>
-            <div>${data.Year}</div>
-        `
-    })
+const searchInputEl = document.getElementById("search-input")
+const plusBtnEl = document.getElementById("plus-btn")
 
 
-
-
-document.getElementById("btn").addEventListener("click", function(e){
+document.getElementById("search-btn").addEventListener("click", function(e){
     e.preventDefault()
-    let hey = document.getElementById("search").value
-    // console.log(hey)
+    let searchInput = searchInputEl.value
+    getMovieCard(searchInput)
+    searchInputEl.value = ""
+})
 
-    fetch(`https://www.omdbapi.com/?apikey=36ea6bc0&t=${hey}`)
+function getMovieCard(searchString){
+    fetch(`https://www.omdbapi.com/?apikey=36ea6bc0&t=${searchString}`)
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            moviesEl.innerHTML += `
-            <h3>${data.Title}</h3>
-            <div>${data.Year}</div>
-        `
+            renderMovieCardHtml(data)
         })
-    document.getElementById("search").value = ""
-})
+}
 
+function renderMovieCardHtml(movieObj){
+    let movieCardHtml = ""
+    movieCardHtml = `
+            <img src="${movieObj.Poster}" />
+            <h3>${movieObj.Title}<span></span></h3>
+            <div>${movieObj.Year}</div>
+            <img class="plus-btn" id="plus-btn" src="./assets/plus-icon.png"/>
+            ${movieObj.imdbRating}
+            ${movieObj.Runtime}
+            ${movieObj.Genre}
+            ${movieObj.Plot}
+        `
+    moviesEl.innerHTML += movieCardHtml
+}
+
+document.addEventListener("click", function(e){
+    if (e.target.classList.contains("plus-btn")){
+        console.log("clicked")
+    }
+})
