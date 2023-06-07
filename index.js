@@ -4,6 +4,9 @@ const moviesEl = document.getElementById("movies")
 const searchInputEl = document.getElementById("search-input")
 const plusBtnEl = document.getElementById("plus-btn")
 let watchlist = []
+let currentlyAddingId = "" 
+
+
 
 document.getElementById("search-btn").addEventListener("click", function(e){
     e.preventDefault()
@@ -29,7 +32,7 @@ function renderMovieCardHtml(movieObj){
             <div>${movieObj.Year}</div>
             <img class="plus-btn" 
                 src="./assets/plus-icon.png"
-                data-movie-id='${movieObj.imdbID}'
+                data-movie='${movieObj.imdbID}'
                 />
             <h4>Watchlist</h4>
             ${movieObj.imdbRating}
@@ -42,9 +45,12 @@ function renderMovieCardHtml(movieObj){
 
 document.addEventListener("click", function(e){
     if (e.target.classList.contains("plus-btn")){
-        let addedMovieId = e.target.dataset.movieId
-        watchlist.push(addedMovieId)
-        localStorage.setItem("watchlistArray", JSON.stringify(watchlist))
+        let movieID = e.target.dataset.movie
+        console.log("dataset: ", movieID)
+        watchlist.push(movieID)
+        console.log("watchlist: ", watchlist)
+    
+        localStorage.setItem("watchListArray", JSON.stringify(watchlist))
     }
 })
 
