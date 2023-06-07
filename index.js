@@ -29,8 +29,9 @@ function renderMovieCardHtml(movieObj){
             <div>${movieObj.Year}</div>
             <img class="plus-btn" 
                 src="./assets/plus-icon.png"
-                data-movie-obj="${movieObj}"
+                data-movie-id='${movieObj.imdbID}'
                 />
+            <h4>Watchlist</h4>
             ${movieObj.imdbRating}
             ${movieObj.Runtime}
             ${movieObj.Genre}
@@ -41,10 +42,10 @@ function renderMovieCardHtml(movieObj){
 
 document.addEventListener("click", function(e){
     if (e.target.classList.contains("plus-btn")){
-        console.log("clicked")
-        console.log(e.target.dataset.movieObj)
-        console.log(e.target.dataset.movieObj["Title"])
-
-        // localStorage.setItem("movie", "")
+        let addedMovieId = e.target.dataset.movieId
+        watchlist.push(addedMovieId)
+        localStorage.setItem("watchlistArray", JSON.stringify(watchlist))
     }
 })
+
+
