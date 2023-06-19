@@ -24,21 +24,32 @@ function getMovieCard(searchString){
 }
 
 function renderMovieCardHtml(movieObj){
+    hideFilmIcon()
     let movieCardHtml = ""
     console.log(movieObj)
     movieCardHtml = `
-            <img src="${movieObj.Poster}" />
-            <h3>${movieObj.Title}<span></span></h3>
-            <div>${movieObj.Year}</div>
-            <img class="plus-btn" 
-                src="./assets/plus-icon.png"
-                data-movie='${movieObj.imdbID}'
-                />
-            <h4>Watchlist</h4>
-            ${movieObj.imdbRating}
-            ${movieObj.Runtime}
-            ${movieObj.Genre}
-            ${movieObj.Plot}
+
+            <img src="${movieObj.Poster}"/>
+            <div class="movie-info">
+                <div class="movie-title">
+                    <h3>${movieObj.Title}</h3>
+                    <img src="assets/star-icon.png" alt="star-icon" />
+                    <h4>${movieObj.imdbRating}</h4>
+                </div>
+                <div class="movie-detail">
+                    <h4>${movieObj.Runtime}</h4>
+                    <h4>${movieObj.Genre}</h4>
+                    <h4>
+                        <span>
+                            <img class="plus-btn" 
+                            src="./assets/plus-icon.png"
+                            data-movie='${movieObj.imdbID}'
+                        />
+                        </span>Watchlist
+                    </h4>
+                </div>
+                <div class="movie-plot">${movieObj.Plot}</div>
+            </div>
         `
     moviesEl.innerHTML += movieCardHtml
 }
@@ -54,4 +65,7 @@ document.addEventListener("click", function(e){
     }
 })
 
+function hideFilmIcon(){
+    document.getElementById("placeholder").classList.toggle("hide")
+}
 

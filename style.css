@@ -22,7 +22,7 @@ header {
     /* border: red 2px solid; */
 }
 
-h2, p {
+h2, h3, h4, p {
     margin: 0;
 }
 
@@ -72,4 +72,64 @@ form {
     border-radius: 0 6px 6px 0;
     padding: 1em 2.5em;
 
+}
+
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10em;
+    filter: brightness(0.2);
+    visibility: unset;
+
+}
+
+.placeholder h3 {
+    margin-top: 0.4em;
+    font-size: 1.5rem;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.movie-title, .movie-detail, .movie-plot {
+    display: flex;
+    grid-area: content;
+}
+
+.movie-title, .movie-detail {
+    /* border: red solid 3px; */
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1em;
+    gap: 1em;
+}
+
+.movie-title img, .movie-detail h4 span img {
+    width: 30px
+}
+
+/* img {
+    width: 20px;
+} */
+
+.movies-container {
+    display: grid;
+    grid-template-areas: 
+        "poster content";
+    grid-template-columns: 23% auto;
+    grid-template-rows: 30%;
+    border: green 2px solid;
+}
+
+.movies-container > img {
+    grid-area: poster;
+    width: 100%;
+}
+
+.movie-info {
+    padding-left: 1em;
+    padding: 1em 0 2em 1em; 
 }
