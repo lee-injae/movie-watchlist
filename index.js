@@ -28,8 +28,9 @@ function renderMovieCardHtml(movieObj){
     let movieCardHtml = ""
     console.log(movieObj)
     movieCardHtml = `
-
+        
             <img src="${movieObj.Poster}"/>
+
             <div class="movie-info">
                 <div class="movie-title">
                     <h3>${movieObj.Title}</h3>
@@ -50,6 +51,8 @@ function renderMovieCardHtml(movieObj){
                 </div>
                 <div class="movie-plot">${movieObj.Plot}</div>
             </div>
+        
+            
         `
     moviesEl.innerHTML += movieCardHtml
 }

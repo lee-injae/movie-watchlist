@@ -117,15 +117,15 @@ form {
 
 .movies-container {
     display: grid;
-    grid-template-areas: 
-        "poster content";
+    /* grid-template-areas: 
+        "poster ... content"; */
     grid-template-columns: 23% auto;
-    grid-template-rows: 30%;
-    border: green 2px solid;
+    /* grid-template-rows: repeat(auto-fit, minmax(100px, 1fr)); */
+    border-bottom: green 2px solid;
 }
 
 .movies-container > img {
-    grid-area: poster;
+    /* grid-area: poster; */
     width: 100%;
 }
 
