@@ -33,8 +33,8 @@ function getMovieCard(searchString){
 
 function renderErrMsg() {
     let errMsgHtml = `
-        <div class="error-smg">
-            <h3>Unable to find what you're looking for. Please try another search.</h3>
+        <div class="error-smg strong">
+            <h2>Unable to find what you're looking for. Please try another search.</h2>
         </div>
     `
     moviesEl.innerHTML = errMsgHtml
@@ -48,23 +48,22 @@ function renderMovieCardHtml(movieObj){
         <div class="movie-card">
             <img class="movie-poster"src="${movieObj.Poster}"/>
             <div class="movie-title">
-                <h3>${movieObj.Title}</h3>
+                <h2>${movieObj.Title}</h2>
                 <img src="assets/star-icon.png" alt="star-icon"/>
                 <h4>${movieObj.imdbRating}</h4>
             </div>
             <div class="movie-detail">
                 <h4>${movieObj.Runtime}</h4>
                 <h4>${movieObj.Genre}</h4>
-                <h4>
-                    <span>
-                        <img class="plus-btn" 
+                <h4 class="watchlist">
+                    <img class="plus-btn" 
                         src="./assets/plus-icon.png"
                         data-movie='${movieObj.imdbID}'
                     />
-                    </span>Watchlist
+                    <div>Watchlist</div>
                 </h4>
             </div>
-            <div class="movie-plot">${movieObj.Plot}</div>   
+            <p class="movie-plot">${movieObj.Plot}</p>   
         </div>
             
         `
@@ -83,6 +82,6 @@ document.addEventListener("click", function(e){
 })
 
 function hideFilmIcon(){
-    document.getElementById("placeholder").classList.toggle("hide")
+    document.getElementById("placeholder").classList.add("hide")
 }
 

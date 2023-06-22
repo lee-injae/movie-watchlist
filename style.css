@@ -22,9 +22,24 @@ header {
     /* border: red 2px solid; */
 }
 
+h2 {
+    font-size: 1.125rem;
+}
+
+p {
+    font-size: 0.875rem;
+}
+
+h4 {
+    font-size: 0.75rem;
+}
+
 h2, h3, h4, p {
     margin: 0;
+    font-weight: 400;
 }
+
+
 
 form {
     display: flex;
@@ -101,13 +116,17 @@ form {
 .movie-card {
     display: grid;
     grid-template-areas: 
-        "poster title title"
-        "poster info info"
-        "poster plot plot";
-    grid-template-columns: 150px 150px 150px;
+        "poster ... ...   ..."
+        "poster ... title title"
+        "poster ... info info"
+        "poster ... plot plot"
+        "poster ... ... ...";
+    grid-template-columns: minmax(90px, 105px) 20px auto auto;
     /* grid-template-rows: repeat(); */
     border-bottom: #4b4b4b 2px solid;
-    height: 25%;
+    padding-bottom: 1.5em;
+    gap: 0.5em 0;
+    margin-bottom: 1.5em;
 }
 
 .movie-poster {
@@ -116,17 +135,32 @@ form {
 }
 .movie-title {
     grid-area: title;
+    gap: 0.5em;
 }
-.movie-detail {grid-area: info;}
-.movie-plot{grid-area: plot}
+.movie-detail {
+    grid-area: info;
+    gap: 1em;
+}
 
-.movie-title, .movie-detail {
+.movie-detail img {
+    /* margin-right: 0.2em; */
+    width: 1em;
+}
+
+.movie-plot{
+    grid-area: plot;
+    color: #A5A5A5;
+}
+
+.movie-title, .movie-detail, .watchlist {
     display: flex;
-
+    align-items: center;
 }
 
-.movie-title img {
-    /* width: 10%; */
+.watchlist img {
+    margin-right: .3em;
 }
 
-
+.strong {
+    font-weight: 700;
+}
