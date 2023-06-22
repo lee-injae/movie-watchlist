@@ -71,7 +71,6 @@ form {
     border: none;
     border-radius: 0 6px 6px 0;
     padding: 1em 2.5em;
-
 }
 
 .placeholder {
@@ -94,42 +93,38 @@ form {
     visibility: hidden;
 }
 
-.movie-title, .movie-detail, .movie-plot {
-    display: flex;
-    grid-area: content;
-}
-
-.movie-title, .movie-detail {
-    /* border: red solid 3px; */
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 1em;
-    gap: 1em;
-}
-
-.movie-title img, .movie-detail h4 span img {
-    width: 30px
-}
-
-/* img {
-    width: 20px;
+/* .movies-container {
+    height: 800px;
 } */
 
-.movies-container {
+.movie-card {
     display: grid;
-    /* grid-template-areas: 
-        "poster ... content"; */
-    grid-template-columns: 23% auto;
-    /* grid-template-rows: repeat(auto-fit, minmax(100px, 1fr)); */
-    border-bottom: green 2px solid;
+    grid-template-areas: 
+        "poster title title"
+        "poster info info"
+        "poster plot plot";
+    grid-template-columns: 150px 150px 150px;
+    /* grid-template-rows: repeat(); */
+    border-bottom: #4b4b4b 2px solid;
+    height: 25%;
 }
 
-.movies-container > img {
-    /* grid-area: poster; */
-    width: 100%;
+.movie-poster {grid-area: poster;
+width: 100%;
+}
+.movie-title {
+    grid-area: title;
+}
+.movie-detail {grid-area: info;}
+.movie-plot{grid-area: plot}
+
+.movie-title, .movie-detail {
+    display: flex;
+
 }
 
-.movie-info {
-    padding-left: 1em;
-    padding: 1em 0 2em 1em; 
+.movie-title img {
+    /* width: 10%; */
 }
+
+

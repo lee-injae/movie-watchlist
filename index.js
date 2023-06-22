@@ -19,8 +19,25 @@ function getMovieCard(searchString){
     fetch(`https://www.omdbapi.com/?apikey=36ea6bc0&t=${searchString}`)
         .then(res => res.json())
         .then(data => {
+            if (data.Response === "False") {
+                renderErrMsg()
+                hideFilmIcon()
+                throw Error("Move not Found!!")
+            }
             renderMovieCardHtml(data)
         })
+        .catch(err => {
+            console.error((err))
+        })
+}
+
+function renderErrMsg() {
+    let errMsgHtml = `
+        <div class="error-smg">
+            <h3>Unable to find what you're looking for. Please try another search.</h3>
+        </div>
+    `
+    moviesEl.innerHTML = errMsgHtml
 }
 
 function renderMovieCardHtml(movieObj){
@@ -28,30 +45,27 @@ function renderMovieCardHtml(movieObj){
     let movieCardHtml = ""
     console.log(movieObj)
     movieCardHtml = `
-        
-            <img src="${movieObj.Poster}"/>
-
-            <div class="movie-info">
-                <div class="movie-title">
-                    <h3>${movieObj.Title}</h3>
-                    <img src="assets/star-icon.png" alt="star-icon" />
-                    <h4>${movieObj.imdbRating}</h4>
-                </div>
-                <div class="movie-detail">
-                    <h4>${movieObj.Runtime}</h4>
-                    <h4>${movieObj.Genre}</h4>
-                    <h4>
-                        <span>
-                            <img class="plus-btn" 
-                            src="./assets/plus-icon.png"
-                            data-movie='${movieObj.imdbID}'
-                        />
-                        </span>Watchlist
-                    </h4>
-                </div>
-                <div class="movie-plot">${movieObj.Plot}</div>
+        <div class="movie-card">
+            <img class="movie-poster"src="${movieObj.Poster}"/>
+            <div class="movie-title">
+                <h3>${movieObj.Title}</h3>
+                <img src="assets/star-icon.png" alt="star-icon"/>
+                <h4>${movieObj.imdbRating}</h4>
             </div>
-        
+            <div class="movie-detail">
+                <h4>${movieObj.Runtime}</h4>
+                <h4>${movieObj.Genre}</h4>
+                <h4>
+                    <span>
+                        <img class="plus-btn" 
+                        src="./assets/plus-icon.png"
+                        data-movie='${movieObj.imdbID}'
+                    />
+                    </span>Watchlist
+                </h4>
+            </div>
+            <div class="movie-plot">${movieObj.Plot}</div>   
+        </div>
             
         `
     moviesEl.innerHTML += movieCardHtml
