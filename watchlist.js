@@ -2,35 +2,40 @@ const moviesEl = document.getElementById("movies")
 let watchlist = JSON.parse(localStorage.getItem("watchListArray")) || []
 
 function render(){
-    
-    console.log(watchlist, typeof watchlist)
+    console.log("whatchlist: ", watchlist, typeof watchlist)
     console.log(localStorage)
 
-    let htmlArr = []
-    let movieCardHtml = ""
-
     watchlist.forEach(function(movieId){
+        let movieCardHtml = ""
+        let htmlArr = []    
+
         fetch(`https://www.omdbapi.com/?apikey=36ea6bc0&i=${movieId}`)
             .then(res => res.json())
             .then(data => {        
                 movieCardHtml = `
-                    <img src="${data.Poster}" />
-                    <h3>${data.Title}<span></span></h3>
-                    <div>${data.Year}</div>
-                    <img class="minus-btn" 
-                        src="./assets/minus-icon.png"
-                        data-movie-id='${data.imdbID}'
-                        />
-                    <h4>Remove</h4>    
-                    ${data.imdbRating}
-                    ${data.Runtime}
-                    ${data.Genre}
-                    ${data.Plot}
-                    </hr>
+                <div class="movie-card">
+                    <img class="movie-poster"src="${data.Poster}"/>
+                    <div class="movie-title">
+                        <h2>${data.Title}</h2>
+                        <img src="assets/star-icon.png" alt="star-icon"/>
+                        <h4>${data.imdbRating}</h4>
+                    </div>
+                    <div class="movie-detail">
+                        <h4>${data.Runtime}</h4>
+                        <h4>${data.Genre}</h4>
+                        <h4 class="watchlist">
+                            <img class="plus-btn" 
+                                src="./assets/plus-icon.png"
+                                data-movie='${data.imdbID}'
+                            />
+                            <div>Watchlist</div>
+                        </h4>
+                    </div>
+                    <p class="movie-plot">${data.Plot}</p>   
+                </div>
                 `
                 htmlArr.push(movieCardHtml)
                 console.log("htmlarr-before promise ", htmlArr)    
-
             })
             .then(() => {
                 console.log("htmlarr-after promise ", htmlArr)    
