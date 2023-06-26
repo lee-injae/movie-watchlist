@@ -56,6 +56,11 @@ document.addEventListener("click", function(e){
         moviesEl.innerHTML = ""
         render()
         }
+    else if (e.target.classList.contains("plus-icon")){
+        console.log("hee")
+    }
+    
+    
     })
 
 render()

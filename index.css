@@ -161,6 +161,15 @@ form {
     margin-right: .3em;
 }
 
+.plus-btn {
+    cursor: pointer;
+}
+
+.plus-btn:focus, .plus-btn:active {
+    transform: scale(1.4);
+    transition: transform 0.5s;
+}
+
 .strong {
     font-weight: 700;
 }
