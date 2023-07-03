@@ -1,9 +1,9 @@
 const moviesEl = document.getElementById("movies")
 let watchlist = JSON.parse(localStorage.getItem("watchListArray")) || []
 
-function render(){
-    console.log("whatchlist: ", watchlist, typeof watchlist)
-    console.log(localStorage)
+function renderWatchlist(){
+    console.log("whatchlist: ", watchlist)
+    console.log("localstorage: ", localStorage.watchListArray)
 
     watchlist.forEach(function(movieId){
         let movieCardHtml = ""
@@ -68,7 +68,7 @@ document.addEventListener("click", function(e){
     
     })
 
-render()
+renderWacthlist()
 
 
 
