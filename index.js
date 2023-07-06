@@ -1,5 +1,8 @@
 const url = "https://www.omdbapi.com/?apikey=36ea6bc0"
 
+
+const movieContainerClass = document.querySelector(".movies-container")
+
 const moviesEl = document.getElementById("movies")
 const searchInputEl = document.getElementById("search-input")
 const plusBtnEl = document.getElementById("plus-btn")
@@ -172,3 +175,14 @@ function hideFilmIcon(){
     document.getElementById("placeholder").classList.add("hide")
 }
 
+function showLoading(){
+    let h3 = document.createElement("h3")
+    h3.textContent = "Loading..."
+    
+}
+
+let ul = document.querySelector('.list');
+let li = document.createElement('li');
+li.textContent = 'Loading...';
+li.className = 'loading-list';
+ul.appendChild(li);
