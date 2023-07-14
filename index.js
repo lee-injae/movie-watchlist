@@ -105,8 +105,6 @@ function showSearchedMovieHtml(movieObj){
 
 function getWatchlist(){
 
-    
-
     let localStorageWatchlist = JSON.parse(
         localStorage.getItem("watchlistArray")) 
         || []
@@ -117,17 +115,18 @@ function getWatchlist(){
         hidePlaceholder()
         showLoading()
         let movieCardHtml = ""
+        let htmlArr = []
         localStorageWatchlist.forEach( movieId => { 
         fetch(`${url}&i=${movieId}`)
             .then(res => res.json())
             .then(data => {        
-                showWatchlistHtml(movieCardHtml, data)
+                showWatchlistHtml(movieCardHtml, htmlArr, data)
             })
         })
     }
 }
 
-function showWatchlistHtml(htmlStr, movieObj){
+function showWatchlistHtml(htmlStr, htmlArr, movieObj){
     const {Poster, Title, imdbRating, imdbID, Genre, Runtime, Plot} = movieObj
     moviesEl.innerHTML = ""
     htmlStr = `
@@ -152,7 +151,8 @@ function showWatchlistHtml(htmlStr, movieObj){
                         <p class="movie-plot">${Plot}</p>   
                     </div>
                 `
-    return moviesEl.innerHTML += htmlStr
+    htmlArr.push(htmlStr)
+    return moviesEl.innerHTML = htmlArr.join("")
 }
 
 function removeMovieFromWatchlist(movieIdStr){
