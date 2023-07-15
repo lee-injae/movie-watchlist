@@ -5,8 +5,10 @@ const moviesEl = document.getElementById("movies")
 const searchInputEl = document.getElementById("search-input")
 const plusBtnEl = document.getElementById("plus-btn")
 
-let watchlist = []
 let currentlyAddingId = "" 
+
+let localStorageWatchlist = JSON.parse(
+    localStorage.getItem("watchlistArray"))
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("loaded")
@@ -19,19 +21,20 @@ document.addEventListener("click", e => {
         let searchInput = searchInputEl.value
         showLoading()
         getMovieCard(searchInput)
+        // console.log("local", localStorage)
+        // console.log("watchlist", watchlist)
+
         searchInput = ""
     }
 
     else if (e.target.classList.contains("plus-btn")){
         let targetMovieID = e.target.dataset.movie
         console.log("dataset: ", targetMovieID)
-        watchlist.includes(targetMovieID) 
-        ? console.log("you already have it", watchlist) 
+        localStorageWatchlist.includes(targetMovieID) 
+        ? console.log("you already have it") 
         : addMovieToWatchlist(targetMovieID)
         // let findDuplicates = watchlist => watchlist.filter(
         //     movieID => (movieID === targetMovieID))
-        console.log("localstorage", localStorage)
-        console.log("watchlist", watchlist)
     }
 
     else if (e.target.classList.contains("minus-btn")){
@@ -42,11 +45,9 @@ document.addEventListener("click", e => {
 
 function render(){
     let page = document.body.id
-    console.log(page)
     switch (page) {
         case "search":
             getMovieCard()
-            console.log(localStorage)
             break
         case "watchlist":
             getWatchlist()
@@ -109,7 +110,7 @@ function getWatchlist(){
         localStorage.getItem("watchlistArray")) 
         || []
 
-    console.log("localstoragewatchlist", localStorageWatchlist) 
+    // console.log("localstoragewatchlist", localStorageWatchlist) 
 
     if (localStorageWatchlist.length > 0) { 
         hidePlaceholder()
@@ -156,20 +157,23 @@ function showWatchlistHtml(htmlStr, htmlArr, movieObj){
 }
 
 function removeMovieFromWatchlist(movieIdStr){
-    console.log("removing movie: ", movieIdStr)
+    // console.log("removing movie: ", movieIdStr)
     let removingIndex = watchlist.indexOf(removingMovie)
     if (removingIndex !== -1){
         watchlist.splice(removingIndex, 1) //update watchlist array
         localStorage.setItem("watchlistArray", 
             JSON.stringify(watchlist)) //update localstorage
     }
-    console.log(watchlist)
-    console.log("localstorage after remove", localStorage)
+    // console.log(watchlist)
+    // console.log("localstorage after remove", localStorage)
 }
 
 function addMovieToWatchlist(movieStr){
-    watchlist.push(movieStr)
-    localStorage.setItem("watchlistArray", JSON.stringify(watchlist))
+    console.log("ll", localStorageWatchlist)
+    localStorageWatchlist.push(movieStr)
+    console.log("ll", localStorageWatchlist)
+    
+    localStorage.setItem("watchlistArray", JSON.stringify(localStorageWatchlist))
 }
 
 function renderErrMsg() {
@@ -186,7 +190,7 @@ function hidePlaceholder(){
 }
 
 function showLoading(){
-    console.log("loading")
+    // console.log("loading")
     let h3 = document.createElement("h3")
     h3.textContent = "Loading..."
     h3.className = "loading-list"
