@@ -8,7 +8,7 @@ const plusBtnEl = document.getElementById("plus-btn")
 let currentlyAddingId = "" 
 
 let localStorageWatchlist = JSON.parse(
-    localStorage.getItem("watchlistArray"))
+    localStorage.getItem("watchlistArray")) || []
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("loaded")
@@ -23,13 +23,11 @@ document.addEventListener("click", e => {
         getMovieCard(searchInput)
         // console.log("local", localStorage)
         // console.log("watchlist", watchlist)
-
         searchInput = ""
     }
 
     else if (e.target.classList.contains("plus-btn")){
         let targetMovieID = e.target.dataset.movie
-        console.log("dataset: ", targetMovieID)
         localStorageWatchlist.includes(targetMovieID) 
         ? console.log("you already have it") 
         : addMovieToWatchlist(targetMovieID)
@@ -38,8 +36,9 @@ document.addEventListener("click", e => {
     }
 
     else if (e.target.classList.contains("minus-btn")){
-        let removingMovie = e.target.dataset.movieId
-        removeMovieFromWatchlist(removingMovie)
+        let removingMovieID = e.target.dataset.movieId
+        // console.log(e.target.dataset.movieId)
+        removeMovieFromWatchlist(removingMovieID)
     }
 })
 
@@ -63,55 +62,52 @@ function getMovieCard(searchString){
         .then(res => res.json())
         .then(data => {
             if (data.Response === "False") {
-                hidePlaceholder()
-                renderErrMsg()
-                throw Error("Move not Found!!")
-            }
+                // hidePlaceholder()
+                // renderErrMsg()
+                throw Error("Movie not Found!!")
+            } 
+            // console.log(data)
             hidePlaceholder()
             showSearchedMovieHtml(data)
         })
         .catch(err => {
             console.error((err))
+            hidePlaceholder()
+            renderErrMsg()
         })
     }     
 }
 
 function showSearchedMovieHtml(movieObj){
+    const {Poster, Title, imdbRating, imdbID, Genre, Runtime, Plot} = movieObj
     moviesEl.innerHTML = ""
     let movieCardHtml = ""
     movieCardHtml = `
         <div class="movie-card">
-            <img class="movie-poster"src="${movieObj.Poster}"/>
+            <img class="movie-poster"src="${Poster}"/>
             <div class="movie-title">
-                <h2>${movieObj.Title}</h2>
+                <h2>${Title}</h2>
                 <img src="assets/star-icon.png" alt="star-icon"/>
-                <h4>${movieObj.imdbRating}</h4>
+                <h4>${imdbRating}</h4>
             </div>
             <div class="movie-detail">
-                <h4>${movieObj.Runtime}</h4>
-                <h4>${movieObj.Genre}</h4>
+                <h4>${Runtime}</h4>
+                <h4>${Genre}</h4>
                 <h4 class="watchlist">
                     <img class="plus-btn" 
                         src="./assets/plus-icon.png"
-                        data-movie='${movieObj.imdbID}'
+                        data-movie='${imdbID}'
                     />
                     <div>Watchlist</div>
                 </h4>
             </div>
-            <p class="movie-plot">${movieObj.Plot}</p>   
+            <p class="movie-plot">${Plot}</p>   
         </div>
         `
     moviesEl.innerHTML += movieCardHtml
 }
 
 function getWatchlist(){
-
-    let localStorageWatchlist = JSON.parse(
-        localStorage.getItem("watchlistArray")) 
-        || []
-
-    // console.log("localstoragewatchlist", localStorageWatchlist) 
-
     if (localStorageWatchlist.length > 0) { 
         hidePlaceholder()
         showLoading()
@@ -124,6 +120,10 @@ function getWatchlist(){
                 showWatchlistHtml(movieCardHtml, htmlArr, data)
             })
         })
+    }
+    else {
+        moviesEl.innerHTML = ""
+        document.getElementById("placeholder").classList.remove("hide")
     }
 }
 
@@ -144,7 +144,7 @@ function showWatchlistHtml(htmlStr, htmlArr, movieObj){
                             <h4 class="watchlist">
                                 <img class="minus-btn" 
                                     src="./assets/minus-icon.png"
-                                    data-movie='${imdbID}'
+                                    data-movie-id='${imdbID}'
                                 />
                                 <div>Watchlist</div>
                             </h4>
@@ -157,23 +157,22 @@ function showWatchlistHtml(htmlStr, htmlArr, movieObj){
 }
 
 function removeMovieFromWatchlist(movieIdStr){
-    // console.log("removing movie: ", movieIdStr)
-    let removingIndex = watchlist.indexOf(removingMovie)
+    let removingIndex = localStorageWatchlist.indexOf(movieIdStr)
+    console.log("removing movie index: ", removingIndex)
     if (removingIndex !== -1){
-        watchlist.splice(removingIndex, 1) //update watchlist array
+        localStorageWatchlist.splice(removingIndex, 1) //update watchlist array
         localStorage.setItem("watchlistArray", 
-            JSON.stringify(watchlist)) //update localstorage
+            JSON.stringify(localStorageWatchlist)) //update localstorage
     }
-    // console.log(watchlist)
-    // console.log("localstorage after remove", localStorage)
+    console.log(localStorageWatchlist)
+    getWatchlist()
 }
 
 function addMovieToWatchlist(movieStr){
-    console.log("ll", localStorageWatchlist)
-    localStorageWatchlist.push(movieStr)
-    console.log("ll", localStorageWatchlist)
-    
+    if (movieStr){
+        localStorageWatchlist.push(movieStr)
     localStorage.setItem("watchlistArray", JSON.stringify(localStorageWatchlist))
+    }   
 }
 
 function renderErrMsg() {
@@ -190,11 +189,12 @@ function hidePlaceholder(){
 }
 
 function showLoading(){
-    // console.log("loading")
     let h3 = document.createElement("h3")
     h3.textContent = "Loading..."
     h3.className = "loading-list"
-    moviesEl.appendChild(h3)
+    console.log("showingloading")
+    moviesEl.prepend(h3)
+    // moviesEl.innerHTML = h3
 }
 
 

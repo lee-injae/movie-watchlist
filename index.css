@@ -9,6 +9,7 @@ body {
 a {
     color:#ffffff;
     text-decoration: none;
+    padding: 0;
 }
 
 header {
@@ -32,7 +33,7 @@ h4 {
     font-size: 0.75rem;
 }
 
-h2, h3, h4, p {
+h2, h3, h4, p, a {
     margin: 0;
     font-weight: 400;
 }
@@ -93,7 +94,7 @@ form {
     visibility: unset;
 }
 
-.placeholder img {
+.film-icon {
     filter: brightness(0.4);
 }
 
@@ -103,8 +104,9 @@ form {
     font-size: 1.5rem;
 }
 
-.placeholder p {
+.placeholder-subtitle {
     margin-top: 0.5em;
+    display: flex;
 }
 
 .hide {
