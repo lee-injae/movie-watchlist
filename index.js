@@ -21,8 +21,6 @@ document.addEventListener("click", e => {
         let searchInput = searchInputEl.value
         showLoading()
         getMovieCard(searchInput)
-        // console.log("local", localStorage)
-        // console.log("watchlist", watchlist)
         searchInput = ""
     }
 
@@ -37,7 +35,6 @@ document.addEventListener("click", e => {
 
     else if (e.target.classList.contains("minus-btn")){
         let removingMovieID = e.target.dataset.movieId
-        // console.log(e.target.dataset.movieId)
         removeMovieFromWatchlist(removingMovieID)
     }
 })
@@ -131,27 +128,27 @@ function showWatchlistHtml(htmlStr, htmlArr, movieObj){
     const {Poster, Title, imdbRating, imdbID, Genre, Runtime, Plot} = movieObj
     moviesEl.innerHTML = ""
     htmlStr = `
-                    <div class="movie-card">
-                        <img class="movie-poster"src="${Poster}"/>
-                        <div class="movie-title">
-                            <h2>${Title}</h2>
-                            <img src="assets/star-icon.png" alt="star-icon"/>
-                            <h4>${imdbRating}</h4>
-                        </div>
-                        <div class="movie-detail">
-                            <h4>${Runtime}</h4>
-                            <h4>${Genre}</h4>
-                            <h4 class="watchlist">
-                                <img class="minus-btn" 
-                                    src="./assets/minus-icon.png"
-                                    data-movie-id='${imdbID}'
-                                />
-                                <div>Watchlist</div>
-                            </h4>
-                        </div>
-                        <p class="movie-plot">${Plot}</p>   
+                <div class="movie-card">
+                    <img class="movie-poster"src="${Poster}"/>
+                    <div class="movie-title">
+                        <h2>${Title}</h2>
+                        <img src="assets/star-icon.png" alt="star-icon"/>
+                        <h4>${imdbRating}</h4>
                     </div>
-                `
+                    <div class="movie-detail">
+                        <h4>${Runtime}</h4>
+                        <h4>${Genre}</h4>
+                        <h4 class="watchlist">
+                            <img class="minus-btn" 
+                                src="./assets/minus-icon.png"
+                                data-movie-id='${imdbID}'
+                            />
+                            <div>Watchlist</div>
+                        </h4>
+                    </div>
+                    <p class="movie-plot">${Plot}</p>   
+                </div>
+            `
     htmlArr.push(htmlStr)
     return moviesEl.innerHTML = htmlArr.join("")
 }
@@ -171,7 +168,7 @@ function removeMovieFromWatchlist(movieIdStr){
 function addMovieToWatchlist(movieStr){
     if (movieStr){
         localStorageWatchlist.push(movieStr)
-    localStorage.setItem("watchlistArray", JSON.stringify(localStorageWatchlist))
+        localStorage.setItem("watchlistArray", JSON.stringify(localStorageWatchlist))
     }   
 }
 
@@ -194,7 +191,6 @@ function showLoading(){
     h3.className = "loading-list"
     console.log("showingloading")
     moviesEl.prepend(h3)
-    // moviesEl.innerHTML = h3
 }
 
 

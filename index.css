@@ -6,19 +6,16 @@ body {
     max-width: 550px;
 }
 
+/* TYPOGRAPHY */
+
+h2, h3, h4, p, a {
+    margin: 0;
+    font-weight: 400;
+}
+
 a {
     color:#ffffff;
     text-decoration: none;
-    padding: 0;
-}
-
-header {
-    background-image: url("./assets/movie-background.png");
-    padding: 3em 2em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between; 
 }
 
 h2 {
@@ -33,10 +30,53 @@ h4 {
     font-size: 0.75rem;
 }
 
-h2, h3, h4, p, a {
-    margin: 0;
-    font-weight: 400;
+
+/* LAYOUT */
+
+header {
+    background-image: url("./assets/movie-background.png");
+    padding: 3em 2em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; 
 }
+
+.movies-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10em;
+    visibility: unset;
+}
+
+.film-icon {
+    filter: brightness(0.4);
+}
+
+.placeholder h3 {
+    filter: brightness(0.4);
+    margin-top: 0.2em;
+    font-size: 1.5rem;
+}
+
+.placeholder-subtitle {
+    margin-top: 0.5em;
+    display: flex;
+}
+
+.movie-title, .movie-detail, .watchlist {
+    display: flex;
+    align-items: center;
+}
+
+/*  FORM  */
 
 form {
     display: flex;
@@ -85,38 +125,7 @@ form {
     /* margin-right: 1em; */
 }
 
-.placeholder {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10em;
-    visibility: unset;
-}
-
-.film-icon {
-    filter: brightness(0.4);
-}
-
-.placeholder h3 {
-    filter: brightness(0.4);
-    margin-top: 0.2em;
-    font-size: 1.5rem;
-}
-
-.placeholder-subtitle {
-    margin-top: 0.5em;
-    display: flex;
-}
-
-.hide {
-    visibility: hidden;
-}
-
-.movies-container {
-    width: 80%;
-    margin: 0 auto;
-}
+/* GRID AREA */
 
 .movie-card {
     display: grid;
@@ -147,9 +156,12 @@ form {
     gap: 1em;
 }
 
-.plus-btn, .minus-btn {
-    cursor: pointer;
+.movie-plot{
+    grid-area: plot;
+    color: #A5A5A5;
 }
+
+/* ICON AND IMG */
 
 .plus-btn {
     margin-right: .4em;
@@ -166,18 +178,18 @@ form {
     transition: transform 0.5s;
 }
 
-.movie-plot{
-    grid-area: plot;
-    color: #A5A5A5;
+.plus-btn, .minus-btn {
+    cursor: pointer;
 }
 
-.movie-title, .movie-detail, .watchlist {
-    display: flex;
-    align-items: center;
-}
+/* UTILITY */
 
 .strong {
     font-weight: 700;
+}
+
+.hide {
+    visibility: hidden;
 }
 
 .error-msg {
