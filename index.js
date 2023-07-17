@@ -1,5 +1,6 @@
 const url = "https://www.omdbapi.com/?apikey=36ea6bc0"
 
+
 const movieContainerClass = document.querySelector(".movies-container")
 const moviesEl = document.getElementById("movies")
 const searchInputEl = document.getElementById("search-input")
@@ -20,7 +21,7 @@ document.addEventListener("click", e => {
         e.preventDefault()
         let searchInput = searchInputEl.value
         showLoading()
-        getMovieCard(searchInput)
+        searchMovieCard(searchInput)
         searchInput = ""
     }
 
@@ -43,7 +44,7 @@ function render(){
     let page = document.body.id
     switch (page) {
         case "search":
-            getMovieCard()
+            searchMovieCard()
             break
         case "watchlist":
             getWatchlist()
@@ -53,9 +54,9 @@ function render(){
     }
 }
 
-function getMovieCard(searchString){
+function searchMovieCard(searchString){
     if (searchInputEl.value) {
-        fetch(`${url}&t=${searchString}`)
+        fetch(`${url}&s=${searchString}`)
         .then(res => res.json())
         .then(data => {
             if (data.Response === "False") {
@@ -63,9 +64,12 @@ function getMovieCard(searchString){
                 // renderErrMsg()
                 throw Error("Movie not Found!!")
             } 
-            // console.log(data)
-            hidePlaceholder()
-            showSearchedMovieHtml(data)
+            let moviesArr = data.Search
+            let imdbIdArr = []
+            moviesArr.forEach( (movieObj) =>  
+                imdbIdArr.push(movieObj.imdbID) 
+            )
+            getMovieCard(imdbIdArr)
         })
         .catch(err => {
             console.error((err))
@@ -75,7 +79,19 @@ function getMovieCard(searchString){
     }     
 }
 
-function showSearchedMovieHtml(movieObj){
+function getMovieCard(arr){
+    let htmlArr = []
+    arr.forEach( imdbId => {
+        fetch(`${url}&i=${imdbId}`)
+        .then(res => res.json())
+        .then(data => {
+            hidePlaceholder()
+            showSearchedMovieHtml(data, htmlArr)
+        })
+    })
+}
+
+function showSearchedMovieHtml(movieObj, htmlArr){
     const {Poster, Title, imdbRating, imdbID, Genre, Runtime, Plot} = movieObj
     moviesEl.innerHTML = ""
     let movieCardHtml = ""
@@ -101,7 +117,8 @@ function showSearchedMovieHtml(movieObj){
             <p class="movie-plot">${Plot}</p>   
         </div>
         `
-    moviesEl.innerHTML += movieCardHtml
+    htmlArr.push(movieCardHtml)
+    moviesEl.innerHTML += htmlArr.join(" ")
 }
 
 function getWatchlist(){
