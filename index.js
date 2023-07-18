@@ -8,7 +8,7 @@ const plusBtnEl = document.getElementById("plus-btn")
 
 let currentlyAddingId = "" 
 
-let localStorageWatchlist = JSON.parse(
+const localStorageWatchlist = JSON.parse(
     localStorage.getItem("watchlistArray")) || []
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -28,7 +28,7 @@ document.addEventListener("click", e => {
     else if (e.target.classList.contains("plus-btn")){
         let targetMovieID = e.target.dataset.movie
         localStorageWatchlist.includes(targetMovieID) 
-        ? console.log("you already have it") 
+        ? alert("This movie is already in the watchlist") 
         : addMovieToWatchlist(targetMovieID)
         // let findDuplicates = watchlist => watchlist.filter(
         //     movieID => (movieID === targetMovieID))
