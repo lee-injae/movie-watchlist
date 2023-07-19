@@ -60,16 +60,17 @@ function searchMovieCard(searchString){
         .then(res => res.json())
         .then(data => {
             if (data.Response === "False") {
-                // hidePlaceholder()
-                // renderErrMsg()
                 throw Error("Movie not Found!!")
-            } 
-            let moviesArr = data.Search
-            let imdbIdArr = []
-            moviesArr.forEach( (movieObj) =>  
-                imdbIdArr.push(movieObj.imdbID) 
-            )
-            getMovieCard(imdbIdArr)
+            } else {
+                let moviesArr = data.Search
+                let imdbIdArr = []
+                moviesArr.forEach( (movieObj) =>  
+                    imdbIdArr.push(movieObj.imdbID) 
+                )
+                hidePlaceholder()
+                getMovieCard(imdbIdArr)
+            }
+            
         })
         .catch(err => {
             console.error((err))
@@ -79,21 +80,24 @@ function searchMovieCard(searchString){
     }     
 }
 
-function getMovieCard(arr){
+async function getMovieCard(arr){
+    moviesEl.innerHTML = ""
     let htmlArr = []
-    arr.forEach( imdbId => {
-        fetch(`${url}&i=${imdbId}`)
-        .then(res => res.json())
-        .then(data => {
-            hidePlaceholder()
+    for (const imdbId of arr) {
+        try {
+            const res = await fetch(`${url}&i=${imdbId}`)
+            const data = await res.json()
             showSearchedMovieHtml(data, htmlArr)
-        })
-    })
+        } catch (err) {
+            console.log(err);
+            renderErrMsg()
+        }
+    }
+    moviesEl.innerHTML = htmlArr.join(" ")
 }
 
-function showSearchedMovieHtml(movieObj, htmlArr){
+function showSearchedMovieHtml(movieObj, arr){
     const {Poster, Title, imdbRating, imdbID, Genre, Runtime, Plot} = movieObj
-    moviesEl.innerHTML = ""
     let movieCardHtml = ""
     movieCardHtml = `
         <div class="movie-card">
@@ -117,23 +121,31 @@ function showSearchedMovieHtml(movieObj, htmlArr){
             <p class="movie-plot">${Plot}</p>   
         </div>
         `
-    htmlArr.push(movieCardHtml)
-    moviesEl.innerHTML += htmlArr.join(" ")
+    arr.push(movieCardHtml)
+    return arr
 }
 
-function getWatchlist(){
+async function getWatchlist(){
+    moviesEl.innerHTML = ""
+    
     if (localStorageWatchlist.length > 0) { 
         hidePlaceholder()
         showLoading()
+        
         let movieCardHtml = ""
         let htmlArr = []
-        localStorageWatchlist.forEach( movieId => { 
-        fetch(`${url}&i=${movieId}`)
-            .then(res => res.json())
-            .then(data => {        
-                showWatchlistHtml(movieCardHtml, htmlArr, data)
-            })
-        })
+     
+        for (const movieId of localStorageWatchlist) {
+            try {
+                const res = await fetch(`${url}&i=${movieId}`)
+                const data = await res.json()
+                showWatchlistHtml(data, htmlArr, movieCardHtml)
+            } catch(err) {
+                console.log(err)
+                renderErrMsg()
+            }
+        }
+        moviesEl.innerHTML = htmlArr.join(" ")
     }
     else {
         moviesEl.innerHTML = ""
@@ -141,10 +153,9 @@ function getWatchlist(){
     }
 }
 
-function showWatchlistHtml(htmlStr, htmlArr, movieObj){
+function showWatchlistHtml(movieObj, arr, str){
     const {Poster, Title, imdbRating, imdbID, Genre, Runtime, Plot} = movieObj
-    moviesEl.innerHTML = ""
-    htmlStr = `
+    str = `
                 <div class="movie-card">
                     <img class="movie-poster"src="${Poster}"/>
                     <div class="movie-title">
@@ -166,8 +177,8 @@ function showWatchlistHtml(htmlStr, htmlArr, movieObj){
                     <p class="movie-plot">${Plot}</p>   
                 </div>
             `
-    htmlArr.push(htmlStr)
-    return moviesEl.innerHTML = htmlArr.join("")
+    arr.push(str)
+    return arr
 }
 
 function removeMovieFromWatchlist(movieIdStr){
