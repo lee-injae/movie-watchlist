@@ -20,9 +20,11 @@ document.addEventListener("click", e => {
     if (e.target.id === "search-btn"){
         e.preventDefault()
         let searchInput = searchInputEl.value
-        showLoading()
-        searchMovieCard(searchInput)
-        searchInput = ""
+        if (searchInput) {
+            showLoading()
+            searchMovieCard(searchInput)
+            searchInput = ""
+        } 
     }
 
     else if (e.target.classList.contains("plus-btn")){
@@ -55,7 +57,7 @@ function render(){
 }
 
 function searchMovieCard(searchString){
-    if (searchInputEl.value) {
+    if (searchString){
         fetch(`${url}&s=${searchString}`)
         .then(res => res.json())
         .then(data => {
@@ -77,11 +79,10 @@ function searchMovieCard(searchString){
             hidePlaceholder()
             renderErrMsg()
         })
-    }     
+    }  
 }
 
 async function getMovieCard(arr){
-    moviesEl.innerHTML = ""
     let htmlArr = []
     for (const imdbId of arr) {
         try {
@@ -93,6 +94,7 @@ async function getMovieCard(arr){
             renderErrMsg()
         }
     }
+    moviesEl.innerHTML = ""
     moviesEl.innerHTML = htmlArr.join(" ")
 }
 
