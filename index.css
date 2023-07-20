@@ -140,7 +140,7 @@ form {
         "poster ... info info"
         "poster ... plot plot"
         "poster ... ... ...";
-    grid-template-columns: minmax(15vw, 22vw) 1.5em auto auto;
+    grid-template-columns: minmax(110px, 13vw) 1.5em auto auto;
     /* grid-template-rows: repeat(); */
     border-bottom: #4b4b4b 2px solid;
     padding-bottom: 1.5em;
@@ -239,6 +239,6 @@ a, .plus-btn, .minus-btn {
     }
 
     .movie-card {
-        width: 40%;
+        width: 45%;
     }
 }
